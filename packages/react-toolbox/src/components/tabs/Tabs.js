@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import { themr } from 'react-css-themr';
-import { TABS } from '../identifiers';
+import {themr} from 'react-css-themr';
+import {TABS} from '../identifiers';
 import InjectFontIcon from '../font_icon/FontIcon';
 import isComponentOfType from '../utils/is-component-of-type';
 import InjectTab from './Tab';
@@ -53,8 +53,8 @@ const factory = (Tab, TabContent, FontIcon) => {
     }
 
     componentDidUpdate(prevProps) {
-      const { index, children } = this.props;
-      const { index: prevIndex, children: prevChildren } = prevProps;
+      const {index, children} = this.props;
+      const {index: prevIndex, children: prevChildren} = prevProps;
 
       if (index !== prevIndex || children !== prevChildren) {
         this.updatePointer(index);
@@ -86,6 +86,9 @@ const factory = (Tab, TabContent, FontIcon) => {
     updatePointer = idx => {
       if (this.navigationNode && this.navigationNode.children[idx]) {
         requestAnimationFrame(() => {
+          if (!this.navigationNode) {
+            return;
+          }
           const nav = this.navigationNode.getBoundingClientRect();
           const label = this.navigationNode.children[idx].getBoundingClientRect();
           const scrollLeft = this.navigationNode.scrollLeft;
@@ -108,7 +111,7 @@ const factory = (Tab, TabContent, FontIcon) => {
         const nav = this.navigationNode.getBoundingClientRect();
         const lastLabel = this.navigationNode.children[
           idx
-        ].getBoundingClientRect();
+          ].getBoundingClientRect();
 
         this.setState({
           arrows: {
@@ -151,7 +154,7 @@ const factory = (Tab, TabContent, FontIcon) => {
         }
       });
 
-      return { headers, contents };
+      return {headers, contents};
     }
 
     renderHeaders(headers) {
@@ -192,8 +195,8 @@ const factory = (Tab, TabContent, FontIcon) => {
         fixed,
         inverse,
       } = this.props;
-      const { left: hasLeftArrow, right: hasRightArrow } = this.state.arrows;
-      const { headers, contents } = this.parseChildren();
+      const {left: hasLeftArrow, right: hasRightArrow} = this.state.arrows;
+      const {headers, contents} = this.parseChildren();
       const classNamePointer = classnames(theme.pointer, {
         [theme.disableAnimation]: disableAnimatedBottomBorder,
       });
@@ -211,9 +214,9 @@ const factory = (Tab, TabContent, FontIcon) => {
         <div data-react-toolbox="tabs" className={classNames}>
           <div className={theme.navigationContainer}>
             {hasLeftArrow &&
-              <div className={theme.arrowContainer} onClick={this.scrollRight}>
-                <FontIcon className={theme.arrow} value="keyboard_arrow_left" />
-              </div>}
+            <div className={theme.arrowContainer} onClick={this.scrollRight}>
+              <FontIcon className={theme.arrow} value="keyboard_arrow_left"/>
+            </div>}
             <nav
               className={theme.navigation}
               ref={node => {
@@ -221,15 +224,15 @@ const factory = (Tab, TabContent, FontIcon) => {
               }}
             >
               {this.renderHeaders(headers)}
-              <span className={classNamePointer} style={this.state.pointer} />
+              <span className={classNamePointer} style={this.state.pointer}/>
             </nav>
             {hasRightArrow &&
-              <div className={theme.arrowContainer} onClick={this.scrollLeft}>
-                <FontIcon
-                  className={theme.arrow}
-                  value="keyboard_arrow_right"
-                />
-              </div>}
+            <div className={theme.arrowContainer} onClick={this.scrollLeft}>
+              <FontIcon
+                className={theme.arrow}
+                value="keyboard_arrow_right"
+              />
+            </div>}
           </div>
           {this.renderContents(contents)}
         </div>
@@ -242,5 +245,5 @@ const factory = (Tab, TabContent, FontIcon) => {
 
 const Tabs = factory(InjectTab, InjectTabContent, InjectFontIcon);
 export default themr(TABS)(Tabs);
-export { factory as tabsFactory };
-export { Tabs };
+export {factory as tabsFactory};
+export {Tabs};
